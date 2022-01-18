@@ -65,17 +65,16 @@ void recvThread(int sd) {
         cout.flush();
         if (param.broadcast) {
             // 연결된 클라이언트 소켓 iter 돌면서 send + exception 처리
-            list<int>::iterator iter = cli_conn_list.begin();
-            while(iter != cli_conn_list.end()){
-                int cli_sd = *iter;
+            m.lock();
+            for(int cli_sd: cli_conn_list){
                 res = send(cli_sd, buf, res, 0);
                 if (res == 0 || res == -1) {
                     cerr << "send return " << res;
                     perror(" ");
                     break;
                 }
-                iter++;
             }
+            m.unlock();
         }
         else if (param.echo) {
             res = send(sd, buf, res, 0);
