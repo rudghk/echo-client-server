@@ -71,7 +71,6 @@ void recvThread(int sd) {
                 if (res == 0 || res == -1) {
                     cerr << "send return " << res;
                     perror(" ");
-                    break;
                 }
             }
             m.unlock();
